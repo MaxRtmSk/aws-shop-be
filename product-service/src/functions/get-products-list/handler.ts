@@ -1,11 +1,13 @@
 import 'source-map-support/register';
 import { middyfy } from '@libs/lambda';
 
-import products from '../../productList.json'
+import { findAllPoductsList } from 'src/database';
 
 
-const getCardList = async () => {
+const getCardList = async (e) => {
+  console.info(`Lambda — getCardList: ${JSON.stringify(e)}`);
   try{
+    const products = await findAllPoductsList()
     return {
       body: JSON.stringify({
         products
@@ -17,6 +19,7 @@ const getCardList = async () => {
       statusCode: 200,
     }
   } catch(e) {
+    console.error(`Error in Lambda — getCardList:`, e)
     console.error(e)
   }
 }
